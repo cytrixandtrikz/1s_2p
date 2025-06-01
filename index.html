@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>1s2p's</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000;
-    color: #eee;
-    text-align: center;
-    padding: 2rem;
-  }
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-  p.description {
-    max-width: 600px;
-    margin: 0 auto 0.5rem auto;
-    font-size: 1.1rem;
-    font-style: italic;
-  }
-  p.daily-message {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #4da6ff;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    min-height: 2em;
-    transition: opacity 0.5s ease-in-out;
-  }
-  img.artwork {
-    width: 80%;
-    max-width: 600px;
-    height: auto;
-    border: none;
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
-    transition: opacity 2s ease;
-    opacity: 1;
-  }
-  img.artwork.fade-out {
-    opacity: 0;
-  }
-  .links a {
-    display: block;
-    color: #4da6ff;
-    margin: 0.5rem 0;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .links a:hover {
-    text-decoration: underline;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1s2p's</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: #eee;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    p.description {
+      max-width: 600px;
+      margin: 0 auto 0.5rem auto;
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+    p.daily-message {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #4da6ff;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      min-height: 2em;
+      transition: opacity 0.5s ease-in-out;
+    }
+    img.artwork {
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .links a {
+      display: inline-block;
+      color: #4da6ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <h1>1s_2p</h1>
@@ -71,67 +71,34 @@
   </div>
 
   <p class="daily-message" id="daily-message"></p>
-  <img id="daily-image" alt="Daily artwork by 1s2p" class="artwork" />
+  <img id="daily-image" alt="Artwork by 1s2p" class="artwork" src="https://i.imgur.com/cSLDFxX.png" />
 
-<script>
-  const messages = [
-    `"sometimes you just gotta get jiggy with it" - cytrix`,
-    `"embrace the gay." - cytrix`,
-    `"my message is say queer  [Because it's pridemonth]" - 1s_2p`,
-    `"OH YEAHHHHH DANCEY TIME!!" - cytrix`,
-    `"mmh yes..." - some smart guy`,
-    `"Doom despair and everything unfair" - cj`,
-    `"If you're reading this, IVE CURSED YOU." - cj`,
-    `"DO IT WORK?....IT NO WORK ): " - cytrix`,
-  ];
+  <script>
+    const messages = [
+      `"sometimes you just gotta get jiggy with it" - cytrix`,
+      `"embrace the gay." - cytrix`,
+      `"my message is say queer  [Because it's pridemonth]" - 1s_2p`,
+      `"OH YEAHHHHH DANCEY TIME!!" - cytrix`,
+      `"mmh yes..." - some smart guy`,
+      `"Doom despair and everything unfair" - cj`,
+      `"If you're reading this, IVE CURSED YOU." - cj`,
+      `"DO IT WORK?....IT NO WORK ): " - cytrix`,
+    ];
 
-  const images = [
-    "https://i.imgur.com/XbiIICy.png",
-    "https://i.imgur.com/cSLDFxX.png"
-  ];
+    const messageElement = document.getElementById('daily-message');
+    let messageIndex = Math.floor(Math.random() * messages.length);
 
-  const imageElement = document.getElementById('daily-image');
-  const messageElement = document.getElementById('daily-message');
+    function showNextMessage() {
+      messageElement.style.opacity = 0;
+      setTimeout(() => {
+        messageElement.textContent = messages[messageIndex];
+        messageElement.style.opacity = 1;
+        messageIndex = (messageIndex + 1) % messages.length;
+      }, 300);
+    }
 
-  // Start with the first image (index 0)
-  let currentImageIndex = 0;
-  imageElement.src = images[currentImageIndex];
-  imageElement.style.opacity = 1;
-
-  // Function to toggle images with fade effect on a continuous loop
-  function toggleImage() {
-    // Fade out
-    imageElement.classList.add('fade-out');
-
-    setTimeout(() => {
-      // Switch image index
-      currentImageIndex = (currentImageIndex + 1) % images.length;
-      // Change the image source
-      imageElement.src = images[currentImageIndex];
-      // Trigger reflow to restart transition
-      void imageElement.offsetWidth;
-      // Fade back in
-      imageElement.classList.remove('fade-out');
-    }, 2000); // matches fade-out duration
-  }
-
-  // Start toggling images every 7 seconds (5s visible + 2s fade)
-  setInterval(toggleImage, 7000);
-
-  // Also start message cycling
-  let messageIndex = Math.floor(Math.random() * messages.length);
-
-  function showNextMessage() {
-    messageElement.style.opacity = 0;
-    setTimeout(() => {
-      messageElement.textContent = messages[messageIndex];
-      messageElement.style.opacity = 1;
-      messageIndex = (messageIndex + 1) % messages.length;
-    }, 300);
-  }
-
-  showNextMessage();
-  setInterval(showNextMessage, 7000);
-</script>
+    showNextMessage();
+    setInterval(showNextMessage, 7000);
+  </script>
 </body>
 </html>
