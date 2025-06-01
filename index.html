@@ -18,9 +18,16 @@
     }
     p.description {
       max-width: 600px;
-      margin: 0 auto 2rem auto;
+      margin: 0 auto 0.5rem auto; /* Changed margin bottom to 0.5rem */
       font-size: 1.1rem;
       font-style: italic;
+    }
+    p.daily-message {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #4da6ff;
+      margin-bottom: 2rem;
+      min-height: 2em; /* to avoid layout shift */
     }
     img.artwork {
       width: 80%;
@@ -45,8 +52,9 @@
 <body>
   <h1>1s_2p</h1>
   <p class="description">
-  Welcome to the fragments of my mind.
+    Welcome to the fragments of my mind.
   </p>
+  <p class="daily-message" id="daily-message"></p>
   <img src="https://i.imgur.com/cSLDFxX.png" alt="Artwork by 1s2p" class="artwork" />
   <div class="links">
     <a href="https://ko-fi.com/1s_2p" target="_blank">Ko-fi</a>
@@ -57,5 +65,26 @@
     <a href="https://spacehey.com/1s_2p" target="_blank">SpaceHey</a>
     <a href="#" onclick="alert('Discord: 1s_2p')">1s_2p on Discord!</a>
   </div>
+
+  <script>
+    const messages = [
+      `"sometimes you just gotta get jiggy with it" - cytrix`,
+      `"embrace the gay." - cytrix`,
+      `"my message is say queer  [Because it's pridemonth]" - 1s_2p`,
+      `"OH YEAHHHHH DANCEY TIME!!" - cytrix`,
+      `"mmh yes..." - some smart guy`
+    ];
+
+    let index = 0;
+    const messageElement = document.getElementById('daily-message');
+
+    function showNextMessage() {
+      messageElement.textContent = messages[index];
+      index = (index + 1) % messages.length;
+    }
+
+    showNextMessage(); // show first message immediately
+    setInterval(showNextMessage, 60000); // switch every 60000 ms = 1 minute
+  </script>
 </body>
 </html>
